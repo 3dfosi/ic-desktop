@@ -967,7 +967,7 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 		}
 		if k == "3df" {
 			if keyExists() {
-				key = sshdir + "/key" + kext
+				key = sshdir + "/ic-lock" + kext
 			} else {
 				msg.Ok = false
 				msg.Title = "ERROR"
