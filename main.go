@@ -16,6 +16,7 @@ import (
 	"runtime"
 	"strconv"
 	"strings"
+	"syscall"
 	"time"
 
 	scribble "github.com/nanobox-io/golang-scribble"
@@ -257,7 +258,8 @@ func keygen() (bool, string, string) {
 	}
 	cmd := exec.Command("sh", "-c", "ssh-keygen -t rsa -b 4096 -f "+sshdir+"/ic-lock -N ''")
 	if runtime.GOOS == "windows" {
-		cmd = exec.Command("cmd", "/C", "ssh-keygen -t rsa -b 4096 -f "+sshdir+"/ic-lock -N ''")
+		cmd = exec.Command("powershell", "-windowstyle", "hidden", "-command", "ssh-keygen -t rsa -b 4096 -f "+sshdir+"/ic-lock -N '\"\"'")
+		cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
 	}
 	err := cmd.Run()
 	if err != nil {
@@ -356,6 +358,7 @@ func showFile() (bool, string) {
 
 	if runtime.GOOS == "windows" {
 		cmd := exec.Command(`cmd`, `/C`, `explorer`, `/select,`, fname)
+		cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
 		err := cmd.Run()
 		if err != nil {
 			fmt.Println(err)
@@ -385,7 +388,8 @@ func keygened() (bool, string) {
 	}
 
 	if runtime.GOOS == "windows" {
-		cmd := exec.Command(`cmd`, `/C`, `explorer`, `/select,`, fname)
+		cmd := exec.Command(`cmd`, `/C`, `explorer`, `/select,`, homedir+"\\.icfx\\.ssh\\ic-lock.pub")
+		cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
 		err := cmd.Run()
 		if err != nil {
 			fmt.Println(err)
@@ -654,6 +658,7 @@ func process() (bool, string, string) {
 			k := filepath.ToSlash(key)
 			f := filepath.ToSlash(file)
 			cmd := exec.Command("cmd", "/C", dir+"\\ssh-vault.exe", "-k", k, "create", "<", f, f+".icfx")
+			cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
 			var out bytes.Buffer
 			var stderr bytes.Buffer
 			cmd.Stdout = &out
@@ -699,6 +704,7 @@ func process() (bool, string, string) {
 		if runtime.GOOS == "windows" {
 			dir := getCurrentPath()
 			cmd := exec.Command("cmd", "/C", dir+"\\ssh-vault", "-k", key, "-o", removeExt(file), "view", file)
+			cmd.SysProcAttr = &syscall.SysProcAttr{CreationFlags: 0x08000000}
 			var out bytes.Buffer
 			var stderr bytes.Buffer
 			cmd.Stdout = &out

@@ -16,6 +16,7 @@ The InstaCrypt service is developed and run by [3DF Limited](https://3df.io). Fo
 
 You can also follow our twitter to track announcements of releases of this project as well as other 3DF OSI projects and news: https://twitter.com/3dfosi
 
+- October 19, 2020   - Windows fixes
 - October 13, 2020   - completed first test & fixed decrypt key check
 - October 13, 2020   - first commit
 

@@ -4,6 +4,10 @@ title Windows Installation Script
 rem echo Setting policy to allow localhost web server...
 rem powershell -command "start-process -verb runAs 'CheckNetIsolation.exe' -argumentlist 'LoopbackExempt -a -n=\"Microsoft.Win32WebViewHost_cw5n1h2txyewy\"'
 
+powershell -command 'Set-ExecutionPolicy RemoteSigned -scope CurrentUser'
+powershell -command 'Invoke-Expression (New-Object System.Net.WebClient).DownloadString("https://get.scoop.sh")'
+powershell -command 'scoop install openssh'
+
 rem InstaCrypt
 xcopy /y /s /i "InstaCrypt" "C:\Users\%USERNAME%\AppData\Local\Programs\InstaCrypt"
 
