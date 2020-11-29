@@ -29,7 +29,7 @@ import (
 
 const (
 	windowWidth  = 650
-	windowHeight = 480
+	windowHeight = 360
 	title        = "InstaCrypt"
 	version      = "v0.1.0"
 	web          = "https://instacrypt.io"
@@ -78,6 +78,11 @@ type KeyProp struct {
 type FileType struct {
 	Type string `json:"type"`
 	File string `json:"file"`
+}
+
+type FileProp struct {
+	Type string
+	File string
 }
 
 // Locker DB Structs
@@ -951,50 +956,6 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 		}
 		direction = d
 		payload = d
-	case "setKey":
-		var res = &KeyProp{}
-		if err = json.Unmarshal(m.Payload, res); err != nil {
-			payload = err.Error()
-			return
-		}
-
-		d := res.Direction
-		k := res.Key
-		fmt.Println("Direction: ", d)
-		fmt.Println("Key: ", k)
-
-		msg := &Message{}
-		var kext string
-		if d == "encrypt" {
-			kext = ".pub"
-		}
-		if d == "decrypt" {
-			kext = ""
-		}
-		if k == "3df" {
-			if keyExists() {
-				key = sshdir + "/ic-lock" + kext
-			} else {
-				msg.Ok = false
-				msg.Title = "ERROR"
-				msg.Message = "Lock & Key does not exists! Please generate a new lock & key"
-				payload = msg
-			}
-		} else if k == "local" {
-			if lKeyExists() {
-				key = lsshdir + "/id_rsa" + kext
-			} else {
-				msg.Ok = false
-				msg.Title = "ERROR"
-				msg.Message = "Local private key does not exists! Please generate a new key pair"
-				payload = msg
-			}
-		}
-		fmt.Println("Processed Key: ", key)
-		msg.Ok = true
-		msg.Title = ""
-		msg.Message = ""
-		payload = msg
 	case "setLocalKey":
 		var k string
 		if err = json.Unmarshal(m.Payload, &k); err != nil {
@@ -1011,7 +972,33 @@ func handleMessages(_ *astilectron.Window, m bootstrap.MessageIn) (payload inter
 		}
 		file = f
 		name := filepath.Base(file)
-		payload = name
+		ext := filepath.Ext(name)
+		fmt.Println("Extension: ", ext)
+
+		// Set Direction
+		if ext == ".icfx" {
+			direction = "decrypt"
+		} else {
+			direction = "encrypt"
+		}
+
+		// Set Key
+		var kext string
+		if direction == "encrypt" {
+			kext = ".pub"
+		}
+		if direction == "decrypt" {
+			kext = ""
+		}
+		if keyExists() {
+			key = sshdir + "/ic-lock" + kext
+		}
+
+		fmt.Println("Processed Key: ", key)
+		fp := &FileProp{}
+		fp.Type = ext
+		fp.File = name
+		payload = fp
 	case "clearFile":
 		file = ""
 		payload = true

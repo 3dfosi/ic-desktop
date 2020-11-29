@@ -26,8 +26,8 @@ a:link {
 
 .top-level {
 	text-align: center;
-	padding: 20px;
-	padding-top: 20px;
+	padding: 10px;
+	padding-top: 0px;
 	padding-bottom: 0px;
 	// border: 1px solid #aac734;
 	width: 50%;
@@ -38,7 +38,7 @@ a:link {
 	font-family: 'Alata', sans-serif;
 	font-size: 14px;
 	text-align: center;
-	padding-top: 10px;
+	padding-top: 30px;
 	padding-bottom: 0px;
 }
 
