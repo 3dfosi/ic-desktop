@@ -29,9 +29,9 @@ import (
 
 const (
 	windowWidth  = 650
-	windowHeight = 360
+	windowHeight = 400
 	title        = "InstaCrypt"
-	version      = "v0.1.0"
+	version      = "v0.2.0"
 	web          = "https://instacrypt.io"
 	api          = "https://api.instacrypt.io"
 )
