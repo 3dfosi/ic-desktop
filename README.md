@@ -1,4 +1,4 @@
-# 3DF InstaCrypt v0.1.0
+# 3DF InstaCrypt v0.2.0
 **maintained by:** @hkdb <br />
 
 ![InstaCrypt](resources/app/static/img/logo.png)
