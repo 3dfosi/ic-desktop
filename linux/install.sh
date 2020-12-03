@@ -40,7 +40,7 @@ echo "Installing .desktop..."
 # Generate .desktop
 cat > ~/.local/share/applications/SSHshare.desktop <<EOF
 [Desktop Entry]
-Version=0.1.0
+Version=0.2.0
 Name=InstaCrypt
 Comment=InstaCrypt Desktop
 GenericName=InstaCrypt
