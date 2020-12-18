@@ -16,6 +16,7 @@ The InstaCrypt service is developed and run by [3DF Limited](https://3df.io). Fo
 
 You can also follow our twitter to track announcements of releases of this project as well as other 3DF OSI projects and news: https://twitter.com/3dfosi
 
+- December 18, 2020  - Added installer for Windows
 - November 30, 2020  - Changed default wHeight to 400 and bumped to 0.2.0
 - November 29, 2020  - WIP: Added guided setup, added auto get contact list to verify authorization, and CSS tweaks
 - November 22, 2020  - WIP: Increased size of authorize button and removed encrypt/decrypt and key button

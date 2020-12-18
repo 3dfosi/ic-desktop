@@ -21,9 +21,10 @@ move ssh-vault.exe %dir%\InstaCrypt
 del LICENSE
 del ssh-vault_0.12.6_windows_amd64.zip
 copy ..\output\windows-amd64\InstaCrypt.exe %dir%\InstaCrypt 
-rem copy webview.dll %dir%\InstaCrypt
-rem copy WebView2Loader.dll %dir%\InstaCrypt
-copy install.bat %dir%
+rem copy install.bat %dir%
+copy installer\dist\install.exe %dir%
+mkdir %dir%\images
+xcopy installer\images %dir%\images\ /E
 zip -r %dir%.zip %dir%
 echo All Done!
 
