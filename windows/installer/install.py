@@ -25,24 +25,36 @@ import shutil
 
 def main():
     parser = GooeyParser(prog="InstaCrypt Desktop Installer")
-    args = parser.parse_args(sys.argv[1:])
+    parser.add_argument(
+        '-i', '--install_ssh',
+        metavar="Dependencies:\n\nOpenSSH Installation:",
+        default=False,
+        action="store_true",
+        help=" Skip installing Scoop (https://scoop.sh) and OpenSSH. I will install OpenSSH myself."
+    )
+    args = parser.parse_args() # sys.argv[1:]
 
     print("Beginning Installation...\n")
 
     # Get HomeDir
     homedir = str(Path.home())
+    
+    print(args.install_ssh)
 
     # Scoop and SSH
-    if os.path.isfile(homedir + "\\scoop\\shims\\ssh.exe") == False:
-        print("SSH is not on system. Installing scoop and then will install ssh")
-        prep_env = "powershell -command 'Set-ExecutionPolicy RemoteSigned -scope CurrentUser'"
-        os.system(prep_env)
-        install_scoop = "powershell -command 'Invoke-Expression (New-Object System.Net.WebClient).DownloadString(\"https://get.scoop.sh\")'"
-        os.system(install_scoop)
-        install_ssh = "powershell -command 'scoop install openssh'"
-        os.system(install_ssh)
+    if args.install_ssh == False:
+        if os.path.isfile(homedir + "\\scoop\\shims\\ssh.exe") == False:
+            print("SSH is not on system. Installing scoop and then will install ssh")
+            prep_env = 'powershell -command "Set-ExecutionPolicy RemoteSigned -scope CurrentUser"'
+            os.system(prep_env)
+            install_scoop = 'powershell -command "iwr -useb get.scoop.sh | iex"'
+            os.system(install_scoop)
+            install_ssh = 'powershell -command "scoop install openssh"'
+            os.system(install_ssh)
+        else:
+            print("Skipping installation of scoop and ssh since it already exists...")
     else:
-        print("Skipping installation of scoop and ssh since it already exists...")
+        print("Skipping installation of scoop and ssh per user request...")
 
     print("progress: {}/{}".format(1, 4))
     print("\n")
